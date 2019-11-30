@@ -2,6 +2,8 @@ public class CandyBoard{
 CandyPiece[][] gamestate;
 int cellsPerRow;
 int cellsPerColumn;
+boolean isActive = true;
+
   CandyBoard(){
     cellsPerRow=10;
     cellsPerColumn=10;
@@ -11,11 +13,15 @@ int cellsPerColumn;
         gamestate[i][j] = new CandyPiece("red");
       }
     }
+  }
     
-    void clearPiece(){
-    if (matches()==false){
-      clear();
-      }
+   public void clearPiece(){
+        for(int i=0; i< gamestate.length; i++) {
+           for(int j=0; j<gamestate[i].length; j++){
+              if(gamestate[i][j].isActive ==false) {
+                gamestate.remove[i][j];
+              }
+            }
+         }
     }
-  } 
-}
+} 

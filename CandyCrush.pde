@@ -20,7 +20,7 @@ void setup(){
 void draw(){
   for(int i=0; i< board.cellsPerRow; i++){
     for(int j=0; j<board.cellsPerColumn; j++){
-      
+      board.add(CandyPiece[i][j]);
     }  
   } 
 } 
