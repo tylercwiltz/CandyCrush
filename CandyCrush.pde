@@ -14,13 +14,26 @@ void initiate(){
     }
 }
 void setup(){
+  size(1000,1000);
   board = new CandyBoard();
 }
 
 void draw(){
-  for(int i=0; i< board.cellsPerRow; i++){
-    for(int j=0; j<board.cellsPerColumn; j++){
-      board.add(CandyPiece[i][j]);
-    }  
   } 
-} 
+ 
+ void mousePressed(){
+   //divide by 100 to change from pixels to indexes
+   println(mouseX/100 + " " + mouseY/100);
+  
+ }
+ void keyPressed(){
+  if (key == CODED) {
+    if (keyCode == UP) {
+      
+    } else if (keyCode == DOWN) {
+      
+    } 
+  } else {
+    
+  }
+ }
