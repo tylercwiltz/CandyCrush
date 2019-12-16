@@ -7,13 +7,8 @@ int locY;
 CandyPiece( int x, int y){
   this.locX = x;
   this.locY = y;
-  colorSelector();
-  ellipse(locX, locY, 100, 100);
-  
 }
-/*(if(matches(candy)==true){
-  candy.remove();
-}*/
+
 boolean matches(CandyPiece piece){
     if(this.colorr.equals(piece.colorr)){
       return true;
@@ -24,7 +19,7 @@ boolean matches(CandyPiece piece){
     }
   }
   
-  void colorSelector(){
+  void chooseRandomColor(){
     int random = (int)random(5);
     if(random==0){
       colorr = "red";
