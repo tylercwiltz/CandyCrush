@@ -1,7 +1,8 @@
-
 int score=0;
 int lives=3;
 int movesRemaining=20;
+int lastClickedX= 0;
+int lastClickedY = 0;
 final int MENU_STATE=0;
 final int GAME_STATE=1;
 final int END_STATE=2;
@@ -25,24 +26,24 @@ void draw() {
 void mousePressed() {
   //divide by 100 to change from pixels to indexes
   println(mouseX/100 + " " + mouseY/100);
+  lastClickedX = mouseX/100;
+  lastClickedY =  mouseY/100;
 }
 void keyPressed() {
   if (key == CODED) {
-    int candyX= mouseX/100;
-    int candyY = mouseY/100;
     if (keyCode == UP) {
-      println(candyX  + ", " + candyY);
-      board.gamestate[candyX][candyY].colorr = board.gamestate[candyX][candyY].getNeighbor("up").colorr;
-      board.gamestate[candyX][candyY].getNeighbor("up").colorr = board.gamestate[candyX][candyY].colorr;
+      println(lastClickedX  + ", " + lastClickedY);
+      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("up").colorr;
+      board.gamestate[lastClickedX][lastClickedY].getNeighbor("up").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
     } else if (keyCode == DOWN) {
-      board.gamestate[candyX][candyY].colorr = board.gamestate[candyX][candyY].getNeighbor("down").colorr;
-      board.gamestate[candyX][candyY].getNeighbor("down").colorr = board.gamestate[candyX][candyY].colorr;
+      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("down").colorr;
+      board.gamestate[lastClickedX][lastClickedY].getNeighbor("down").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
     } else if (keyCode==RIGHT) {
-     board.gamestate[candyX][candyY].colorr = board.gamestate[candyX][candyY].getNeighbor("right").colorr;
-     board.gamestate[candyX][candyY].getNeighbor("right").colorr = board.gamestate[candyX][candyY].colorr;
+      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("right").colorr;
+      board.gamestate[lastClickedX][lastClickedY].getNeighbor("right").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
     } else {
-     board.gamestate[candyX][candyY].colorr = board.gamestate[candyX][candyY].getNeighbor("left").colorr;
-     board.gamestate[candyX][candyY].getNeighbor("left").colorr = board.gamestate[candyX][candyY].colorr;
+      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("left").colorr;
+      board.gamestate[lastClickedX][lastClickedY].getNeighbor("left").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
     }
   }
 }
