@@ -17,4 +17,39 @@ public class CandyBoard {
       xPos+=100;
     }
   }
+  
+  void removeMatches(){
+    for (int i=0; i< gamestate.length; i++) {
+      for (int j=0; j<gamestate[i].length; j++) {
+        //check right
+        if(i<board.gamestate.length-2){
+          if(board.gamestate[i][j].matches(board.gamestate[i+1][j])){
+          }
+          if(board.gamestate[i][j].matches(board.gamestate[i+2][j])){
+          }
+        }
+        //check left
+        if(i>1){
+          if(board.gamestate[i][j].matches(board.gamestate[i-1][j])){
+          }
+          if(board.gamestate[i][j].matches(board.gamestate[i-2][j])){
+          }
+        }
+        //check up
+         if(j>1){
+          if(board.gamestate[i][j].matches(board.gamestate[i][j-1])){
+          }
+          if(board.gamestate[i][j].matches(board.gamestate[i][j-2])){
+          }
+        }
+        //check down
+        if(j<board.gamestate[i].length-2){
+          if(board.gamestate[i][j].matches(board.gamestate[i][j+1])){
+          }
+          if(board.gamestate[i][j].matches(board.gamestate[i][j+2])){
+          }
+        }
+      }
+    }
+  }
 }
