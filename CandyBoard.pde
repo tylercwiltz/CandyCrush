@@ -13,7 +13,7 @@ public class CandyBoard {
         gamestate[i][j] = new CandyPiece(xPos, yPos);
         yPos+=100;
       }
-      yPos=0;
+      yPos=50;
       xPos+=100;
     }
   }

@@ -1,12 +1,12 @@
 public class CandyPiece {
   //CandyPiece candy = new CandyPiece("red", locX, locY);
   int colorr;
-  int locX;
-  int locY;
+  int xPos;
+  int yPos;
 
   CandyPiece( int x, int y) {
-    this.locX = x;
-    this.locY = y;
+    this.xPos = x;
+    this.yPos = y;
     chooseRandomColor();
   }
 
@@ -37,22 +37,9 @@ public class CandyPiece {
     }
   }
 
-  CandyPiece getNeighbor(String direction) {
-    int boardX= locX/100;
-    int boardY = locY/100;
-    if (direction.equalsIgnoreCase("up")) {
-      println(boardX + ", " + boardY);
-      return CandyCrush.board.gamestate[boardX][boardY-1];
-    }  
-    if (direction.equalsIgnoreCase("down")) {
-      return CandyCrush.board.gamestate[boardX][boardY+1];
-    }  
-    if (direction.equalsIgnoreCase("left")) {
-      return CandyCrush.board.gamestate[boardX-1][boardY];
-    } 
-    if (direction.equalsIgnoreCase("right")) {
-      return CandyCrush.board.gamestate[boardX+1][boardY];
-    }
-    return null;
+  void swapColors(CandyPiece p2){
+    int temp = p2.colorr;
+    p2.colorr = this.colorr;
+    this.colorr=temp;
   }
 }

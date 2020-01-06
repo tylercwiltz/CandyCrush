@@ -32,31 +32,22 @@ void mousePressed() {
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
-      println(lastClickedX  + ", " + lastClickedY);
-      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("up").colorr;
-      board.gamestate[lastClickedX][lastClickedY].getNeighbor("up").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
+     board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX][lastClickedY-1]);
     } else if (keyCode == DOWN) {
-      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("down").colorr;
-      board.gamestate[lastClickedX][lastClickedY].getNeighbor("down").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
+        board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX][lastClickedY+1]);
     } else if (keyCode==RIGHT) {
-      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("right").colorr;
-      board.gamestate[lastClickedX][lastClickedY].getNeighbor("right").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
+       board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX+1][lastClickedY]);
     } else {
-      board.gamestate[lastClickedX][lastClickedY].colorr = board.gamestate[lastClickedX][lastClickedY].getNeighbor("left").colorr;
-      board.gamestate[lastClickedX][lastClickedY].getNeighbor("left").colorr = board.gamestate[lastClickedX][lastClickedY].colorr;
+        board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX-1][lastClickedY]);
     }
   }
 }
 void drawBoard() {
-  int xPos = 50;
-  int yPos = 50;
   for (int i=0; i< board.gamestate.length; i++) {
     for (int j=0; j<board.gamestate[i].length; j++) {
-      fill(board.gamestate[i][j].colorr);
-      ellipse(xPos, yPos, 60, 60);
-      yPos+=100;
+      CandyPiece temp = board.gamestate[i][j];
+      fill(temp.colorr);
+      ellipse(temp.xPos, temp.yPos, 60, 60);
     }
-    yPos = 50;
-    xPos+=100;
   }
 }
