@@ -18,21 +18,24 @@ public class CandyBoard {
     }
   }
   
-  void removeMatches(){
-    for (int i=0; i< gamestate.length; i++) {
-      for (int j=0; j<gamestate[i].length; j++) {
+  CandyPiece[][] removeMatches(CandyPiece[][] gamestateCopy){
+    for (int i=0; i< gamestateCopy.length; i++) {
+      for (int j=0; j<gamestateCopy[i].length; j++) {
+        //check left
+        if(i>=2){
+          if(gamestateCopy[i][j].matches(gamestateCopy[i-1][j])){
+          if(gamestateCopy[i][j].matches(gamestateCopy[i-2][j])){
+            gamestateCopy[i][j]= new PlaceHolder(i, j);
+            gamestateCopy[i-1][j] = new PlaceHolder(i-1, j);
+            gamestateCopy[i-2][j] = new PlaceHolder(i-2, j);
+            }
+          }
+        }
         //check right
-        if(i<board.gamestate.length-2){
+       /* if(i<board.gamestate.length-2){
           if(board.gamestate[i][j].matches(board.gamestate[i+1][j])){
           }
           if(board.gamestate[i][j].matches(board.gamestate[i+2][j])){
-          }
-        }
-        //check left
-        if(i>1){
-          if(board.gamestate[i][j].matches(board.gamestate[i-1][j])){
-          }
-          if(board.gamestate[i][j].matches(board.gamestate[i-2][j])){
           }
         }
         //check up
@@ -49,7 +52,9 @@ public class CandyBoard {
           if(board.gamestate[i][j].matches(board.gamestate[i][j+2])){
           }
         }
+        */
       }
     }
+    return gamestateCopy;
   }
 }

@@ -42,4 +42,6 @@ public class CandyPiece {
     p2.colorr = this.colorr;
     this.colorr=temp;
   }
+  
+
 }

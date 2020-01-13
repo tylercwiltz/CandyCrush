@@ -17,6 +17,7 @@ void initiate() {
 void setup() {
   size(1000, 1000);
   board = new CandyBoard();
+  background(#F2F2F2);
 }
 
 void draw() {
@@ -38,8 +39,10 @@ void keyPressed() {
     } else if (keyCode==RIGHT) {
        board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX+1][lastClickedY]);
     } else {
-        board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX-1][lastClickedY]);
+        board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX-1][lastClickedY]); 
     }
+    
+    board.removeMatches(board.gamestate);
   }
 }
 void drawBoard() {
