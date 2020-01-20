@@ -19,40 +19,55 @@ public class CandyBoard {
   }
   
   CandyPiece[][] removeMatches(CandyPiece[][] gamestateCopy){
+    int xCopy;
+    int yCopy;
+    int widthOfPieces=100;
+   
     for (int i=0; i< gamestateCopy.length; i++) {
       for (int j=0; j<gamestateCopy[i].length; j++) {
+        xCopy = 100*i+50;
+        yCopy = 100*j+50;
         //check left
         if(i>=2){
           if(gamestateCopy[i][j].matches(gamestateCopy[i-1][j])){
           if(gamestateCopy[i][j].matches(gamestateCopy[i-2][j])){
-            gamestateCopy[i][j]= new PlaceHolder(i, j);
-            gamestateCopy[i-1][j] = new PlaceHolder(i-1, j);
-            gamestateCopy[i-2][j] = new PlaceHolder(i-2, j);
+            gamestateCopy[i][j]= new PlaceHolder(xCopy, yCopy);
+            gamestateCopy[i-1][j] = new PlaceHolder(xCopy-widthOfPieces*1, yCopy);
+            gamestateCopy[i-2][j] = new PlaceHolder(xCopy-widthOfPieces*2, yCopy);
             }
           }
         }
         //check right
-       /* if(i<board.gamestate.length-2){
-          if(board.gamestate[i][j].matches(board.gamestate[i+1][j])){
+        if(i<board.gamestate.length-3){
+         if(gamestateCopy[i][j].matches(gamestateCopy[i+1][j])){
+          if(gamestateCopy[i][j].matches(gamestateCopy[i+2][j])){
+            gamestateCopy[i][j]= new PlaceHolder(xCopy, yCopy);
+            gamestateCopy[i+1][j] = new PlaceHolder(xCopy+widthOfPieces*1, yCopy);
+            gamestateCopy[i+2][j] = new PlaceHolder(xCopy+widthOfPieces*2, yCopy);
+            }
           }
-          if(board.gamestate[i][j].matches(board.gamestate[i+2][j])){
-          }
-        }
+         }
+     
         //check up
          if(j>1){
-          if(board.gamestate[i][j].matches(board.gamestate[i][j-1])){
-          }
-          if(board.gamestate[i][j].matches(board.gamestate[i][j-2])){
+           if(gamestateCopy[i][j].matches(gamestateCopy[i][j-1])){
+            if(gamestateCopy[i][j].matches(gamestateCopy[i][j-2])){
+              gamestateCopy[i][j]= new PlaceHolder(xCopy, yCopy);
+              gamestateCopy[i-1][j] = new PlaceHolder(xCopy, yCopy-widthOfPieces*1);
+              gamestateCopy[i-2][j] = new PlaceHolder(xCopy, yCopy-widthOfPieces*2);
+            }
           }
         }
         //check down
-        if(j<board.gamestate[i].length-2){
-          if(board.gamestate[i][j].matches(board.gamestate[i][j+1])){
-          }
-          if(board.gamestate[i][j].matches(board.gamestate[i][j+2])){
+        if(j<board.gamestate[i].length-3){
+           if(gamestateCopy[i][j].matches(gamestateCopy[i][j+1])){
+            if(gamestateCopy[i][j].matches(gamestateCopy[i][j+2])){
+              gamestateCopy[i][j]= new PlaceHolder(xCopy, yCopy);
+              gamestateCopy[i-1][j] = new PlaceHolder(xCopy, yCopy+widthOfPieces*1);
+              gamestateCopy[i-2][j] = new PlaceHolder(xCopy, yCopy+widthOfPieces*2);
+            }
           }
         }
-        */
       }
     }
     return gamestateCopy;
