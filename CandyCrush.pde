@@ -18,6 +18,7 @@ void setup() {
   size(1000, 1000);
   board = new CandyBoard();
   background(#F2F2F2);
+  board.removeMatches(board.gamestate);
 }
 
 void draw() {
@@ -26,7 +27,6 @@ void draw() {
 
 void mousePressed() {
   //divide by 100 to change from pixels to indexes
-  println(mouseX/100 + " " + mouseY/100);
   lastClickedX = mouseX/100;
   lastClickedY =  mouseY/100;
 }
