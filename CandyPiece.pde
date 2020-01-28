@@ -3,6 +3,11 @@ public class CandyPiece {
   int colorr;
   int xPos;
   int yPos;
+  
+  boolean falling = false;
+  int fallDistance = 0;
+  int fallSpeed = 5;
+  
 
   CandyPiece( int x, int y) {
     this.xPos = x;

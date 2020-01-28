@@ -22,6 +22,8 @@ void setup() {
 }
 
 void draw() {
+  background(#D1F2FF);
+  board.dropPieces();
   drawBoard();
 } 
 
@@ -31,6 +33,14 @@ void mousePressed() {
   lastClickedY =  mouseY/100;
 }
 void keyPressed() {
+  if (key == 'r' || key == 'R') {
+    board.removeMatches(board.gamestate);
+  }
+     
+  if (key == 'c' || key == 'C') {
+    board.collapse();
+  }
+     
   if (key == CODED) {
     if (keyCode == UP) {
      board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX][lastClickedY-1]);
@@ -38,19 +48,21 @@ void keyPressed() {
         board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX][lastClickedY+1]);
     } else if (keyCode==RIGHT) {
        board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX+1][lastClickedY]);
-    } else {
+    
+    
+    }else {
         board.gamestate[lastClickedX][lastClickedY].swapColors(board.gamestate[lastClickedX-1][lastClickedY]); 
     }
-    
-    board.removeMatches(board.gamestate);
   }
 }
 void drawBoard() {
   for (int i=0; i< board.gamestate.length; i++) {
     for (int j=0; j<board.gamestate[i].length; j++) {
       CandyPiece temp = board.gamestate[i][j];
-      fill(temp.colorr);
-      ellipse(temp.xPos, temp.yPos, 60, 60);
+      if(!(temp instanceof PlaceHolder)){
+        fill(temp.colorr);
+        ellipse(temp.xPos, temp.yPos, 60, 60);
+      }
     }
   }
 }
