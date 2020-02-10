@@ -4,29 +4,29 @@ public class CandyBoard {
   int cellsPerColumn=10;
 
   boolean isActive = true;
-
-  CandyBoard() {
+  int topBorderOffset = (candyPieceSize*3)/2; //give gap of 1 candyPiece for header
+  int leftBorderOffset = candyPieceSize/2; //line up pieces against left edge
+  
+  CandyBoard() { //make empty gameBoard(NO candyPieces) 
     gamestate= new CandyPiece[cellsPerRow][cellsPerColumn];
-    
-    int xPos = 50;
-    int yPos = 50;
+    int xPos = leftBorderOffset;
+    int yPos = topBorderOffset;
     for (int i=0; i< gamestate.length; i++) {
       for (int j=0; j<gamestate[i].length; j++) {
+        xPos = candyPieceSize*i+leftBorderOffset;
+        yPos = candyPieceSize*j+topBorderOffset;
         gamestate[i][j] = new CandyPiece(xPos, yPos);
-        yPos+=100;
       }
-      yPos=50;
-      xPos+=100;
-    }
+    } 
   }
-  
+  /////IN PROGRESS/////
   void collapse(){
    // while(setFalling()){
       setFalling();
    // }
   }
   
-  
+  //////IN PROGRESS/////////
   void dropPieces(){
     //go through the gameboard starting from the bottom right
       for(int i=0; i<gamestate.length; i++){
@@ -55,7 +55,7 @@ public class CandyBoard {
     }
   }
   
-  
+  ///////IN PROGRESS//////////
   boolean setFalling(){
     //keeps track of whether there are pieces still falling
     boolean piecesFalling = false;
@@ -90,59 +90,90 @@ public class CandyBoard {
     return piecesFalling;
   }
   
+  /////////NOT ALWAYS WORKING-->EDGE CASES?////////////
   CandyPiece[][] removeMatches(CandyPiece[][] gamestateCopy){
-    int xCopy;
-    int yCopy;
-    int diameterOfPieces=100;
-   
+    int xPosCopy;
+    int yPosCopy;
+    
     for (int i=0; i< gamestateCopy.length; i++) {
       for (int j=0; j<gamestateCopy[i].length; j++) {
-        xCopy = 100*i+50;
-        yCopy = 100*j+50;
+        xPosCopy = candyPieceSize*i+leftBorderOffset;
+        yPosCopy = candyPieceSize*j+topBorderOffset;
         
         //check right
         if(i<board.gamestate.length-2){
          if(gamestateCopy[i][j].matches(gamestateCopy[i+1][j])){
           if(gamestateCopy[i][j].matches(gamestateCopy[i+2][j])){
-            gamestateCopy[i+1][j] = new PlaceHolder(xCopy+diameterOfPieces, yCopy);
-            gamestateCopy[i+2][j] = new PlaceHolder(xCopy+diameterOfPieces*2, yCopy);
+            //+1 to right
+            gamestateCopy[i+1][j] = new PlaceHolder(xPosCopy+candyPieceSize, yPosCopy);
+            fill(gamestateCopy[i+1][j].colorr);
+            ellipse(gamestateCopy[i+1][j].xPos,gamestateCopy[i+1][j].yPos,candyPieceSize,candyPieceSize);
+            //+2 to right
+            gamestateCopy[i+2][j] = new PlaceHolder(xPosCopy+candyPieceSize*2, yPosCopy);
+            fill(gamestateCopy[i+2][j].colorr);
+            ellipse(gamestateCopy[i+2][j].xPos,gamestateCopy[i+2][j].yPos,candyPieceSize,candyPieceSize);
+            
             if(i<board.gamestate.length-3){
               if(gamestateCopy[i][j].matches(gamestateCopy[i+3][j])){
-                gamestateCopy[i+3][j] = new PlaceHolder(xCopy+diameterOfPieces*3, yCopy);
+                //+3 to right
+                gamestateCopy[i+3][j] = new PlaceHolder(xPosCopy+candyPieceSize*3, yPosCopy);
+                fill(gamestateCopy[i+3][j].colorr);
+                ellipse(gamestateCopy[i+3][j].xPos,gamestateCopy[i+3][j].yPos,candyPieceSize,candyPieceSize);
+              
+                if(i<board.gamestate.length-4){
+                 if(gamestateCopy[i][j].matches(gamestateCopy[i+4][j])){
+                  //+4 to right
+                  gamestateCopy[i+4][j] = new PlaceHolder(xPosCopy+candyPieceSize*4, yPosCopy);
+                  fill(gamestateCopy[i+4][j].colorr);
+                  ellipse(gamestateCopy[i+4][j].xPos,gamestateCopy[i+4][j].yPos,candyPieceSize,candyPieceSize);
+                 }
+                }
               }
             }
-             if(i<board.gamestate.length-4){
-              if(gamestateCopy[i][j].matches(gamestateCopy[i+4][j])){
-                gamestateCopy[i+4][j] = new PlaceHolder(xCopy+diameterOfPieces*4, yCopy);
-              }
-            }
-            gamestateCopy[i][j]= new PlaceHolder(xCopy, yCopy);
+            gamestateCopy[i][j]= new PlaceHolder(xPosCopy, yPosCopy);
+            fill(gamestateCopy[i][j].colorr);
+            ellipse(gamestateCopy[i][j].xPos,gamestateCopy[i][j].yPos,candyPieceSize,candyPieceSize);
           }
           }
         }
         //check down
-        if(j<board.gamestate[i].length-3){
+        if(j<board.gamestate[i].length-2){
            if(gamestateCopy[i][j].matches(gamestateCopy[i][j+1])){
             if(gamestateCopy[i][j].matches(gamestateCopy[i][j+2])){
-              gamestateCopy[i][j+1] = new PlaceHolder(xCopy, yCopy+diameterOfPieces);
-              gamestateCopy[i][j+2] = new PlaceHolder(xCopy, yCopy+diameterOfPieces*2);
-               if(j<board.gamestate[i].length-3){
-              if(gamestateCopy[i][j].matches(gamestateCopy[i][j+3])){
-                gamestateCopy[i][j+3] = new PlaceHolder(xCopy, yCopy+diameterOfPieces*3);
+              //+1 down
+              gamestateCopy[i][j+1] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize);
+              fill(gamestateCopy[i][j+1].colorr);
+              ellipse(gamestateCopy[i][j+1].xPos,gamestateCopy[i][j+1].yPos,candyPieceSize,candyPieceSize);
+              //+2 down
+              gamestateCopy[i][j+2] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize*2);
+              fill(gamestateCopy[i][j+2].colorr);
+              ellipse(gamestateCopy[i][j+2].xPos,gamestateCopy[i][j+2].yPos,candyPieceSize,candyPieceSize);
+              
+              if(j<board.gamestate[i].length-3){
+               if(gamestateCopy[i][j].matches(gamestateCopy[i][j+3])){
+                 //+3 down
+                 gamestateCopy[i][j+3] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize*3);
+                 fill(gamestateCopy[i][j+3].colorr);
+                 ellipse(gamestateCopy[i][j+3].xPos,gamestateCopy[i][j+3].yPos,candyPieceSize,candyPieceSize);
+                 
+                 if(j<board.gamestate[i].length-4){                        
+                  if(gamestateCopy[i][j].matches(gamestateCopy[i][j+4])){
+                   //+4 down
+                   gamestateCopy[i][j+4] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize*4);
+                   fill(gamestateCopy[i][j+4].colorr);
+                   ellipse(gamestateCopy[i][j+4].xPos,gamestateCopy[i][j+4].yPos,candyPieceSize,candyPieceSize);
+                  }
+                 }
+               }
               }
+              gamestateCopy[i][j]= new PlaceHolder(xPosCopy, yPosCopy);
+              fill(gamestateCopy[i][j].colorr);
+              ellipse(gamestateCopy[i][j].xPos,gamestateCopy[i][j].yPos,candyPieceSize,candyPieceSize);
             }
-              if(i<board.gamestate[i].length-4){                        
-              if(gamestateCopy[i][j].matches(gamestateCopy[i][j+3])){
-                gamestateCopy[i][j+4] = new PlaceHolder(xCopy, yCopy+diameterOfPieces*4);
-              }
-            }
-            gamestateCopy[i][j]= new PlaceHolder(xCopy, yCopy);
-            }
-          }
+           }
         }
-
       }
     }
     return gamestateCopy;
-      }
-    }
+  }
+}

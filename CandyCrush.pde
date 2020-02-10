@@ -1,3 +1,4 @@
+int candyPieceSize;
 int score=0;
 int lives=3;
 int movesRemaining=20;
@@ -15,22 +16,29 @@ void initiate() {
   }
 }
 void setup() {
-  size(1000, 1000);
+  size(500, 500);
+  background(#D1F2FF);
+  candyPieceSize = width/10;
   board = new CandyBoard();
-  background(#F2F2F2);
-  board.removeMatches(board.gamestate);
 }
 
 void draw() {
   background(#D1F2FF);
   board.dropPieces();
   drawBoard();
+  //board.removeMatches(board.gamestate);
+  fill(0,0,0);
+  textSize(candyPieceSize);
+  textAlign(LEFT,BOTTOM);
+  text("Score: I WIN",0,candyPieceSize);
 } 
 
 void mousePressed() {
-  //divide by 100 to change from pixels to indexes
-  lastClickedX = mouseX/100;
-  lastClickedY =  mouseY/100;
+  //divide by candyPieceSize to change from pixels to indexes
+  //ex: if (width=500) => (candyPieceSize=width/10) == 50) =>
+  // => (mouseX=250)/(candyPieceSize) == 5 
+  lastClickedX = mouseX/candyPieceSize;
+  lastClickedY = (mouseY/candyPieceSize)-1; //-1 offset for headerOffset
 }
 void keyPressed() {
   if (key == 'r' || key == 'R') {
@@ -61,7 +69,7 @@ void drawBoard() {
       CandyPiece temp = board.gamestate[i][j];
       if(!(temp instanceof PlaceHolder)){
         fill(temp.colorr);
-        ellipse(temp.xPos, temp.yPos, 60, 60);
+        ellipse(temp.xPos, temp.yPos, candyPieceSize, candyPieceSize);
       }
     }
   }
