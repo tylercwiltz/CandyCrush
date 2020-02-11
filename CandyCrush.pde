@@ -16,17 +16,19 @@ void initiate() {
   }
 }
 void setup() {
-  size(500, 500);
+  //height = width+(width/10)
+  size(500, 550);
   background(#D1F2FF);
   candyPieceSize = width/10;
   board = new CandyBoard();
+  board.removeMatches();
 }
 
 void draw() {
   background(#D1F2FF);
-  board.dropPieces();
   drawBoard();
-  //board.removeMatches(board.gamestate);
+  //board.removeMatches();
+  //board.update();
   fill(0,0,0);
   textSize(candyPieceSize);
   textAlign(LEFT,BOTTOM);
@@ -42,11 +44,12 @@ void mousePressed() {
 }
 void keyPressed() {
   if (key == 'r' || key == 'R') {
-    board.removeMatches(board.gamestate);
+    board.removeMatches();
   }
      
   if (key == 'c' || key == 'C') {
-    board.collapse();
+      board.update();
+      board.dropNewPieces();
   }
      
   if (key == CODED) {

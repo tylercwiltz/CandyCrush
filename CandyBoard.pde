@@ -7,6 +7,7 @@ public class CandyBoard {
   int topBorderOffset = (candyPieceSize*3)/2; //give gap of 1 candyPiece for header
   int leftBorderOffset = candyPieceSize/2; //line up pieces against left edge
   
+  int a = 0;
   CandyBoard() { //make empty gameBoard(NO candyPieces) 
     gamestate= new CandyPiece[cellsPerRow][cellsPerColumn];
     int xPos = leftBorderOffset;
@@ -19,161 +20,133 @@ public class CandyBoard {
       }
     } 
   }
-  /////IN PROGRESS/////
-  void collapse(){
-   // while(setFalling()){
-      setFalling();
-   // }
-  }
-  
-  //////IN PROGRESS/////////
-  void dropPieces(){
-    //go through the gameboard starting from the bottom right
-      for(int i=0; i<gamestate.length; i++){
-        for(int j=0; j<gamestate[i].length; j++){
-            CandyPiece currentPiece = gamestate[i][j];
-            //if the currentPiece is falling 
-              if(currentPiece.falling){
-                  //if the piece is done falling
-                  if(currentPiece.fallDistance==0){
-                    //set falling to false
-                    currentPiece.falling = false;
-                  }
-                  else{
-                    //make sure we don't overshoot the dropDistance
-                    if(currentPiece.fallDistance >= currentPiece.fallSpeed){
-                      currentPiece.yPos += currentPiece.fallSpeed;
-                      currentPiece.fallDistance -= currentPiece.fallSpeed;
-                    }
-                    else{
-                      //drop it down by the speed;   
-                       currentPiece.yPos += currentPiece.fallDistance;
-                    } 
-                  }
-              }
-        }
-    }
-  }
-  
-  ///////IN PROGRESS//////////
-  boolean setFalling(){
-    //keeps track of whether there are pieces still falling
-    boolean piecesFalling = false;
-    //go through the gameboard starting from the bottom right
-    for(int i=0; i<gamestate.length; i++){
-      for(int j=0; j<gamestate[i].length; j++){
-        //if there is a placeholder piece 
-        if(gamestate[i][j] instanceof PlaceHolder){
-          
-          //if the placeholder is not still on the board
-            //break - don't check the rest of the row
-          
-          //if the placeholder is not over an active piece
  
-            piecesFalling = true;
-            //set any piece in the column above that to falling=true
-            for(int k=j-1; k>=0; k--){
-              gamestate[i][k].colorr = #32a0a8;
-              gamestate[i][k].falling = true;
-              gamestate[i][k].fallDistance = 100;
-            
-            }
-          //if we had piece in the row fall, dont check any rows above
-          if(piecesFalling){
-            break;
-          }
-        }
-        
-        
-      }
-    }
-    return piecesFalling;
-  }
-  
-  /////////NOT ALWAYS WORKING-->EDGE CASES?////////////
-  CandyPiece[][] removeMatches(CandyPiece[][] gamestateCopy){
-    int xPosCopy;
-    int yPosCopy;
+  /////////SEEMS TO ALWAYS WORK NOW////////////
+  void removeMatches(){
+    int currX;
+    int currY;
     
-    for (int i=0; i< gamestateCopy.length; i++) {
-      for (int j=0; j<gamestateCopy[i].length; j++) {
-        xPosCopy = candyPieceSize*i+leftBorderOffset;
-        yPosCopy = candyPieceSize*j+topBorderOffset;
-        
+    for (int i=0; i< gamestate.length; i++) {
+      for (int j=0; j<gamestate[i].length; j++) {
+        currX = gamestate[i][j].xPos;
+        currY = gamestate[i][j].yPos;
         //check right
         if(i<board.gamestate.length-2){
-         if(gamestateCopy[i][j].matches(gamestateCopy[i+1][j])){
-          if(gamestateCopy[i][j].matches(gamestateCopy[i+2][j])){
+         if(gamestate[i][j].matches(gamestate[i+1][j])){
+          if(gamestate[i][j].matches(gamestate[i+2][j])){
             //+1 to right
-            gamestateCopy[i+1][j] = new PlaceHolder(xPosCopy+candyPieceSize, yPosCopy);
-            fill(gamestateCopy[i+1][j].colorr);
-            ellipse(gamestateCopy[i+1][j].xPos,gamestateCopy[i+1][j].yPos,candyPieceSize,candyPieceSize);
+            gamestate[i+1][j] = new PlaceHolder(currX+candyPieceSize, currY);
+            //fill(gamestate[i+1][j].colorr);
+            //ellipse(gamestate[i+1][j].xPos,gamestate[i+1][j].yPos,candyPieceSize,candyPieceSize);
             //+2 to right
-            gamestateCopy[i+2][j] = new PlaceHolder(xPosCopy+candyPieceSize*2, yPosCopy);
-            fill(gamestateCopy[i+2][j].colorr);
-            ellipse(gamestateCopy[i+2][j].xPos,gamestateCopy[i+2][j].yPos,candyPieceSize,candyPieceSize);
+            gamestate[i+2][j] = new PlaceHolder(currX+candyPieceSize*2, currY);
+            //fill(gamestate[i+2][j].colorr);
+            //ellipse(gamestate[i+2][j].xPos,gamestate[i+2][j].yPos,candyPieceSize,candyPieceSize);
             
             if(i<board.gamestate.length-3){
-              if(gamestateCopy[i][j].matches(gamestateCopy[i+3][j])){
+              if(gamestate[i][j].matches(gamestate[i+3][j])){
                 //+3 to right
-                gamestateCopy[i+3][j] = new PlaceHolder(xPosCopy+candyPieceSize*3, yPosCopy);
-                fill(gamestateCopy[i+3][j].colorr);
-                ellipse(gamestateCopy[i+3][j].xPos,gamestateCopy[i+3][j].yPos,candyPieceSize,candyPieceSize);
+                gamestate[i+3][j] = new PlaceHolder(currX+candyPieceSize*3, currY);
+                //fill(gamestate[i+3][j].colorr);
+                //ellipse(gamestate[i+3][j].xPos,gamestate[i+3][j].yPos,candyPieceSize,candyPieceSize);
               
                 if(i<board.gamestate.length-4){
-                 if(gamestateCopy[i][j].matches(gamestateCopy[i+4][j])){
+                 if(gamestate[i][j].matches(gamestate[i+4][j])){
                   //+4 to right
-                  gamestateCopy[i+4][j] = new PlaceHolder(xPosCopy+candyPieceSize*4, yPosCopy);
-                  fill(gamestateCopy[i+4][j].colorr);
-                  ellipse(gamestateCopy[i+4][j].xPos,gamestateCopy[i+4][j].yPos,candyPieceSize,candyPieceSize);
+                  gamestate[i+4][j] = new PlaceHolder(currX+candyPieceSize*4, currY);
+                  //fill(gamestate[i+4][j].colorr);
+                  //ellipse(gamestate[i+4][j].xPos,gamestate[i+4][j].yPos,candyPieceSize,candyPieceSize);
                  }
                 }
               }
             }
-            gamestateCopy[i][j]= new PlaceHolder(xPosCopy, yPosCopy);
-            fill(gamestateCopy[i][j].colorr);
-            ellipse(gamestateCopy[i][j].xPos,gamestateCopy[i][j].yPos,candyPieceSize,candyPieceSize);
+            gamestate[i][j]= new PlaceHolder(currX, currY);
+            //fill(gamestate[i][j].colorr);
+            //ellipse(gamestate[i][j].xPos,gamestate[i][j].yPos,candyPieceSize,candyPieceSize);
           }
           }
         }
         //check down
         if(j<board.gamestate[i].length-2){
-           if(gamestateCopy[i][j].matches(gamestateCopy[i][j+1])){
-            if(gamestateCopy[i][j].matches(gamestateCopy[i][j+2])){
+           if(gamestate[i][j].matches(gamestate[i][j+1])){
+            if(gamestate[i][j].matches(gamestate[i][j+2])){
               //+1 down
-              gamestateCopy[i][j+1] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize);
-              fill(gamestateCopy[i][j+1].colorr);
-              ellipse(gamestateCopy[i][j+1].xPos,gamestateCopy[i][j+1].yPos,candyPieceSize,candyPieceSize);
+              gamestate[i][j+1] = new PlaceHolder(currX, currY+candyPieceSize);
+              //fill(gamestate[i][j+1].colorr);
+              //ellipse(gamestate[i][j+1].xPos,gamestate[i][j+1].yPos,candyPieceSize,candyPieceSize);
               //+2 down
-              gamestateCopy[i][j+2] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize*2);
-              fill(gamestateCopy[i][j+2].colorr);
-              ellipse(gamestateCopy[i][j+2].xPos,gamestateCopy[i][j+2].yPos,candyPieceSize,candyPieceSize);
+              gamestate[i][j+2] = new PlaceHolder(currX, currY+candyPieceSize*2);
+              //fill(gamestate[i][j+2].colorr);
+              //ellipse(gamestate[i][j+2].xPos,gamestate[i][j+2].yPos,candyPieceSize,candyPieceSize);
               
               if(j<board.gamestate[i].length-3){
-               if(gamestateCopy[i][j].matches(gamestateCopy[i][j+3])){
+               if(gamestate[i][j].matches(gamestate[i][j+3])){
                  //+3 down
-                 gamestateCopy[i][j+3] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize*3);
-                 fill(gamestateCopy[i][j+3].colorr);
-                 ellipse(gamestateCopy[i][j+3].xPos,gamestateCopy[i][j+3].yPos,candyPieceSize,candyPieceSize);
+                 gamestate[i][j+3] = new PlaceHolder(currX, currY+candyPieceSize*3);
+                 //fill(gamestate[i][j+3].colorr);
+                 //ellipse(gamestate[i][j+3].xPos,gamestate[i][j+3].yPos,candyPieceSize,candyPieceSize);
                  
                  if(j<board.gamestate[i].length-4){                        
-                  if(gamestateCopy[i][j].matches(gamestateCopy[i][j+4])){
+                  if(gamestate[i][j].matches(gamestate[i][j+4])){
                    //+4 down
-                   gamestateCopy[i][j+4] = new PlaceHolder(xPosCopy, yPosCopy+candyPieceSize*4);
-                   fill(gamestateCopy[i][j+4].colorr);
-                   ellipse(gamestateCopy[i][j+4].xPos,gamestateCopy[i][j+4].yPos,candyPieceSize,candyPieceSize);
+                   gamestate[i][j+4] = new PlaceHolder(currX, currY+candyPieceSize*4);
+                   //fill(gamestate[i][j+4].colorr);
+                   //ellipse(gamestate[i][j+4].xPos,gamestate[i][j+4].yPos,candyPieceSize,candyPieceSize);
                   }
                  }
                }
               }
-              gamestateCopy[i][j]= new PlaceHolder(xPosCopy, yPosCopy);
-              fill(gamestateCopy[i][j].colorr);
-              ellipse(gamestateCopy[i][j].xPos,gamestateCopy[i][j].yPos,candyPieceSize,candyPieceSize);
+              gamestate[i][j]= new PlaceHolder(currX, currY);
+              //fill(gamestate[i][j].colorr);
+              //ellipse(gamestate[i][j].xPos,gamestate[i][j].yPos,candyPieceSize,candyPieceSize);
             }
            }
         }
       }
     }
-    return gamestateCopy;
   }
+  
+  /*
+   Move pieces down board to fill gaps
+   Loop from bottom right to top left
+   Check if piece is placeholder
+   Then move piece above down one
+   */
+  void update() {
+    PlaceHolder temp;
+    
+    //stop at 1 to avoid out of bounds (temp fix)
+    for (int i=gamestate.length-1; i>= 0; i--) {
+      for (int j=gamestate[i].length-1; j>= 1; j--) {
+        //create temp PlaceHolder for old location of the falling piece
+        temp = new PlaceHolder(gamestate[i][j-1].xPos,gamestate[i][j-1].yPos);
+        
+        //if current piece = PlaceHolder
+        if(gamestate[i][j] instanceof PlaceHolder) {
+           //move falling piece down to current piece location
+           while(gamestate[i][j-1].yPos < gamestate[i][j].yPos) {
+             gamestate[i][j-1].yPos++;
+           }
+           //update currPiece location in 2d array
+           gamestate[i][j] = gamestate[i][j-1];
+           //update fallingPiece location in 2d array
+           gamestate[i][j-1] = temp;
+        }
+      }
+    }
+  }
+  
+  /*
+   Generates new pieces at top of board as pieces shift down
+   Loop from right to left
+   Add new piece at index 0 of that column if it is a PlaceHolder
+   */
+  void dropNewPieces() {
+     for (int i=gamestate.length-1; i>= 0; i--) {
+       if(gamestate[i][0] instanceof PlaceHolder) {
+         gamestate[i][0] = new CandyPiece(gamestate[i][0].xPos,gamestate[i][0].yPos);  
+       }
+     }
+  }
+  
 }
