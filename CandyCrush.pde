@@ -21,7 +21,7 @@ void setup() {
   background(#D1F2FF);
   candyPieceSize = width/10;
   board = new CandyBoard();
-  board.removeMatches();
+  //board.removeMatches();
 }
 
 void draw() {
